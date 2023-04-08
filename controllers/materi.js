@@ -1,11 +1,11 @@
 const db = require("../models");
-const Quiz = db.quizzes;
+const Materi = db.materi;
 
 //CREATE: untuk menambahkan data kedalam tabel quiz
 exports.create = async (req, res) => {
 
     try {
-        const data = await Quiz.create(req.body)
+        const data = await Materi.create(req.body)
         res.json({
             message: "quiz created successfully.",
             data: data,
@@ -20,32 +20,15 @@ exports.create = async (req, res) => {
 
 //READ: menampilkan atau mengambil semua data quiz sesuai model dari database
 exports.getAll = async (req, res) => {
-    Quiz.findAll()
+    Materi.findAll()
         .then(data => {
-            const quizzez = data.map(quiz => {
+            const materi = data.map(data => {
                 return {
-                    nomor: quiz.nomor,
-                    gambar: quiz.image,
-                    quiz: quiz.quiz,
-                    option: [
-                        {
-                            a : quiz.a,
-                        },
-                        {
-                            b : quiz.b,
-                        },
-                        {
-                            c : quiz.c,
-                        },
-                        {
-                            d : quiz.d,
-                        }
-                    ],
-                    key: quiz.key,
+                    data: data
                 }
             })
 
-            res.send(quizzez)
+            res.send(materi)
         })
         .catch(err => {
             res.status(500).send({
@@ -56,19 +39,24 @@ exports.getAll = async (req, res) => {
 
 //Mengubah data sesuai id yang dikirimkan
 exports.update = async (req, res) => {
-    const nomor = req.params.nomor
+    const nama = req.params.nama
     try {
-        const quiz = await Quiz.findByPk(nomor, { rejectOnEmpty: true })
-        quiz.update(req.body, {
-            where: { nomor }
-        })
+        let materi = await Materi.findAll({
+            where: {
+                nama: nama,
+            },
+        });
+        let namaBody = req.body.nama
+        materi[0].update(req.body, {
+            where: { namaBody }
+        });
         res.json({
-            message: "Quizzes updated successfully.",
-            data: quiz,
+            message: "Materi updated successfully.",
+            data: materi,
         });
     } catch (error) {
         res.status(500).json({
-            message: error.message || "Some error occurred while retrieving quiz",
+            message: error.message || "Some error occurred while retrieving Materi",
             data: null,
         });
     }
@@ -76,14 +64,20 @@ exports.update = async (req, res) => {
 
 //Menghapus data sesuai id yang dikirimkan
 exports.delete = async (req, res) => {
-    const nomor = req.params.nomor
+    const nama = req.params.nama
     try {
-        const quiz = await Quiz.findByPk(nomor, { rejectOnEmpty: true })
-
-        quiz.destroy()
+        let materi = await Materi.findAll({
+            where: {
+                nama: nama,
+            },
+        });
+        let namaBody = req.body.nama
+        materi[0].destroy(req.body, {
+            where: { namaBody }
+        });
 
         res.json({
-            message: "Quiz deleted successfully."
+            message: "Materi deleted successfully."
         });
     } catch (error) {
         res.status(500).json({

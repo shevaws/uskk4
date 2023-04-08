@@ -9,7 +9,16 @@ module.exports = (sequelize, Sequelize) => {
         quiz: {
             type: Sequelize.STRING,
         },
-        option: {
+        a: {
+            type: Sequelize.STRING,
+        },
+        b: {
+            type: Sequelize.STRING,
+        },
+        c: {
+            type: Sequelize.STRING,
+        },
+        d: {
             type: Sequelize.STRING,
         },
         key: {
