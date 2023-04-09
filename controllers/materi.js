@@ -32,7 +32,7 @@ exports.getAll = async (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || 'Some error occurred while retrieving quizzes.'
+                message: err.message || 'Some error occurred while retrieving Materi.'
             })
         })
 }
@@ -81,7 +81,7 @@ exports.delete = async (req, res) => {
         });
     } catch (error) {
         res.status(500).json({
-            message: error.message || "Some error occurred while retrieving quiz",
+            message: error.message || "Some error occurred while retrieving Materi",
             data: null,
         });
     }
@@ -122,7 +122,7 @@ exports.findOne = async (req, res) => {
         });
     } catch (error) {
         res.status(500).json({
-            message: error.message || "Some error occurred while retrieving quiz",
+            message: error.message || "Some error occurred while retrieving Materi",
             data: null,
         });
     }
