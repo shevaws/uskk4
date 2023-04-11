@@ -20,21 +20,16 @@ exports.create = async (req, res) => {
 
 //READ: menampilkan atau mengambil semua data quiz sesuai model dari database
 exports.getAll = async (req, res) => {
-    Materi.findAll()
-        .then(data => {
-            const materi = data.map(data => {
-                return {
-                    data: data
-                }
-            })
-
-            res.send(materi)
+    try{
+        const materi = await Materi.findAll();
+        res.status(500).send({
+            data: materi
         })
-        .catch(err => {
+    }catch {
             res.status(500).send({
                 message: err.message || 'Some error occurred while retrieving Materi.'
             })
-        })
+    }
 }
 
 //Mengubah data sesuai id yang dikirimkan
